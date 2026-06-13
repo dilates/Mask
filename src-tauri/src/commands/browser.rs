@@ -1,7 +1,6 @@
 use crate::{db, models::Persona};
 use std::path::PathBuf;
 use std::process::Command;
-use rusqlite::params;
 
 fn firefox_profile_dir(persona_id: &str) -> PathBuf {
     db::data_dir().join("profiles").join(persona_id)

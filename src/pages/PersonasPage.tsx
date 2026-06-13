@@ -14,8 +14,15 @@ export function PersonasPage() {
   const [checkTarget, setCheckTarget] = useState<Persona | null>(null);
   const [toast, setToast] = useState<string | null>(null);
 
-  const load = () =>
-    api.listPersonas().then(setPersonas).finally(() => setLoading(false));
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  const load = () => {
+    setLoadError(null);
+    api.listPersonas()
+      .then(setPersonas)
+      .catch((e) => setLoadError(String(e)))
+      .finally(() => setLoading(false));
+  };
 
   useEffect(() => { load(); }, []);
 
@@ -67,6 +74,12 @@ export function PersonasPage() {
           <Plus size={16} /> New Persona
         </button>
       </div>
+
+      {loadError && (
+        <div className="bg-red-900/30 border border-red-700/50 rounded-lg p-4 text-red-300 text-sm font-mono">
+          IPC error: {loadError}
+        </div>
+      )}
 
       {loading && (
         <div className="text-center text-gray-500 py-12">Loading...</div>

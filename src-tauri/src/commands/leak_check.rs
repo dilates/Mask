@@ -122,7 +122,7 @@ pub async fn run_leak_check(
 async fn check_dns_leak(
     checks: &mut Vec<CheckItem>,
     proxy: Option<(&str, u16, &str)>,
-    egress_ip: Option<&str>,
+    _egress_ip: Option<&str>,
 ) -> bool {
     // Use a DNS-over-HTTPS check via the proxy to compare resolution
     let mut builder = reqwest::Client::builder()
