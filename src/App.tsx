@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Shield, Users, BookOpen } from "lucide-react";
+import { Shield, Users, BookOpen, ArrowLeftRight } from "lucide-react";
 import { PersonasPage } from "./pages/PersonasPage";
 import { AuditLog } from "./components/AuditLog";
+import { ExportImportPage } from "./pages/ExportImportPage";
 
-type Tab = "personas" | "audit";
+type Tab = "personas" | "audit" | "export";
 
 export default function App() {
   const [tab, setTab] = useState<Tab>("personas");
@@ -28,6 +29,12 @@ export default function App() {
             onClick={() => setTab("personas")}
           />
           <NavItem
+            icon={<ArrowLeftRight size={16} />}
+            label="Export / Import"
+            active={tab === "export"}
+            onClick={() => setTab("export")}
+          />
+          <NavItem
             icon={<BookOpen size={16} />}
             label="Audit Log"
             active={tab === "audit"}
@@ -37,6 +44,7 @@ export default function App() {
 
         <main className="flex-1 overflow-y-auto p-6">
           {tab === "personas" && <PersonasPage />}
+          {tab === "export" && <ExportImportPage />}
           {tab === "audit" && <AuditLog />}
         </main>
       </div>

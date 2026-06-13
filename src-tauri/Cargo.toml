@@ -24,3 +24,9 @@ directories = "5"
 reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
 tokio = { version = "1", features = ["full"] }
 thiserror = "1"
+aes-gcm = "0.10"
+pbkdf2 = { version = "0.12", features = ["simple"] }
+sha2 = "0.10"
+rand = "0.8"
+base64 = "0.22"
+zip = { version = "2", features = ["deflate"] }

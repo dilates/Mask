@@ -13,6 +13,9 @@ export interface Persona {
   locale: string;
   user_agent: string;
   notes: string;
+  browser_type: "firefox" | "chromium" | "brave";
+  container_mode: "none" | "podman" | "docker";
+  wg_interface: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -31,6 +34,9 @@ export interface CreatePersona {
   locale?: string;
   user_agent?: string;
   notes?: string;
+  browser_type?: string;
+  container_mode?: string;
+  wg_interface?: string;
 }
 
 export interface UpdatePersona extends Partial<CreatePersona> {
@@ -61,4 +67,10 @@ export interface LeakCheckResult {
   timezone_match: boolean;
   country: string | null;
   checks: CheckItem[];
+}
+
+export interface WgStatus {
+  interface: string;
+  up: boolean;
+  detail: string;
 }

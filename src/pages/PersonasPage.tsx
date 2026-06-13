@@ -106,6 +106,7 @@ export function PersonasPage() {
             onDelete={() => handleDelete(p)}
             onLaunch={() => handleLaunch(p)}
             onCheck={() => setCheckTarget(p)}
+            onNotify={notify}
           />
         ))}
       </div>

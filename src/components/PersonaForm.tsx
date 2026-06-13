@@ -40,6 +40,9 @@ export function PersonaForm({ persona, onSave, onClose }: Props) {
     locale: "en-US",
     user_agent: "",
     notes: "",
+    browser_type: "firefox",
+    container_mode: "none",
+    wg_interface: "",
   });
 
   useEffect(() => {
@@ -58,6 +61,9 @@ export function PersonaForm({ persona, onSave, onClose }: Props) {
         locale: persona.locale,
         user_agent: persona.user_agent,
         notes: persona.notes,
+        browser_type: persona.browser_type,
+        container_mode: persona.container_mode,
+        wg_interface: persona.wg_interface ?? "",
       });
     }
   }, [persona]);
@@ -125,7 +131,38 @@ export function PersonaForm({ persona, onSave, onClose }: Props) {
             />
           </div>
 
-          {/* Proxy */}
+          {/* Browser */}
+          <fieldset className="border border-border rounded-lg p-4 space-y-3">
+            <legend className="text-xs text-gray-400 px-1">Browser</legend>
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <label className="label">Browser</label>
+                <select
+                  className="input"
+                  value={form.browser_type}
+                  onChange={(e) => set("browser_type", e.target.value)}
+                >
+                  <option value="firefox">Firefox</option>
+                  <option value="chromium">Chromium</option>
+                  <option value="brave">Brave</option>
+                </select>
+              </div>
+              <div className="flex-1">
+                <label className="label">Isolation Mode</label>
+                <select
+                  className="input"
+                  value={form.container_mode}
+                  onChange={(e) => set("container_mode", e.target.value)}
+                >
+                  <option value="none">None (profile isolation)</option>
+                  <option value="podman">Podman container</option>
+                  <option value="docker">Docker container</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          {/* Network Routing */}
           <fieldset className="border border-border rounded-lg p-4 space-y-3">
             <legend className="text-xs text-gray-400 px-1">Network Routing</legend>
             <div className="flex gap-3">
@@ -173,31 +210,33 @@ export function PersonaForm({ persona, onSave, onClose }: Props) {
               <div className="flex gap-3">
                 <div className="flex-1">
                   <label className="label">Username (optional)</label>
-                  <input
-                    className="input"
-                    value={form.proxy_user ?? ""}
-                    onChange={(e) => set("proxy_user", e.target.value)}
-                  />
+                  <input className="input" value={form.proxy_user ?? ""} onChange={(e) => set("proxy_user", e.target.value)} />
                 </div>
                 <div className="flex-1">
                   <label className="label">Password (optional)</label>
-                  <input
-                    className="input"
-                    type="password"
-                    value={form.proxy_pass ?? ""}
-                    onChange={(e) => set("proxy_pass", e.target.value)}
-                  />
+                  <input className="input" type="password" value={form.proxy_pass ?? ""} onChange={(e) => set("proxy_pass", e.target.value)} />
                 </div>
               </div>
             )}
-            <div>
-              <label className="label">VPN Config Path (optional)</label>
-              <input
-                className="input"
-                value={form.vpn_config ?? ""}
-                onChange={(e) => set("vpn_config", e.target.value)}
-                placeholder="/etc/wireguard/persona-alpha.conf"
-              />
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <label className="label">WireGuard Config Path (optional)</label>
+                <input
+                  className="input"
+                  value={form.vpn_config ?? ""}
+                  onChange={(e) => set("vpn_config", e.target.value)}
+                  placeholder="/etc/wireguard/persona-alpha.conf"
+                />
+              </div>
+              <div className="w-36">
+                <label className="label">Interface name</label>
+                <input
+                  className="input"
+                  value={form.wg_interface ?? ""}
+                  onChange={(e) => set("wg_interface", e.target.value)}
+                  placeholder="wg0"
+                />
+              </div>
             </div>
           </fieldset>
 
@@ -207,26 +246,14 @@ export function PersonaForm({ persona, onSave, onClose }: Props) {
             <div className="flex gap-3">
               <div className="flex-1">
                 <label className="label">Timezone</label>
-                <select
-                  className="input"
-                  value={form.timezone}
-                  onChange={(e) => set("timezone", e.target.value)}
-                >
-                  {TIMEZONES.map((tz) => (
-                    <option key={tz} value={tz}>{tz}</option>
-                  ))}
+                <select className="input" value={form.timezone} onChange={(e) => set("timezone", e.target.value)}>
+                  {TIMEZONES.map((tz) => <option key={tz} value={tz}>{tz}</option>)}
                 </select>
               </div>
               <div className="flex-1">
                 <label className="label">Locale</label>
-                <select
-                  className="input"
-                  value={form.locale}
-                  onChange={(e) => set("locale", e.target.value)}
-                >
-                  {LOCALES.map((l) => (
-                    <option key={l} value={l}>{l}</option>
-                  ))}
+                <select className="input" value={form.locale} onChange={(e) => set("locale", e.target.value)}>
+                  {LOCALES.map((l) => <option key={l} value={l}>{l}</option>)}
                 </select>
               </div>
             </div>
@@ -254,9 +281,7 @@ export function PersonaForm({ persona, onSave, onClose }: Props) {
           </div>
 
           <div className="flex gap-3 justify-end pt-2">
-            <button type="button" onClick={onClose} className="btn-secondary">
-              Cancel
-            </button>
+            <button type="button" onClick={onClose} className="btn-secondary">Cancel</button>
             <button type="submit" className="btn-primary">
               {persona ? "Save Changes" : "Create Persona"}
             </button>
