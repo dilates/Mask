@@ -211,3 +211,4 @@ src-tauri/src/
 - The export encryption password is never stored. If you lose it, the export cannot be recovered.
 - Running multiple personas simultaneously on the same machine increases correlation risk through timing, network behavior, and shared system resources. Use container mode to reduce this.
 - WireGuard bring-up requires `pkexec` or `sudo`. The polkit dialog will prompt for your password.
+ 
